@@ -16,6 +16,7 @@ variable
 
 Inside the 'src/config folder create a new file 'config.json" and then add the following piece of json
 
+````
 {
 
 "development": {
@@ -33,3 +34,8 @@ Inside the 'src/config folder create a new file 'config.json" and then add the f
 }
 
 }
+
+
+```
+once the you've added your db config as listed above, go to the src folder from your terminal and exicute the "npx sequelize db:create"
+````
