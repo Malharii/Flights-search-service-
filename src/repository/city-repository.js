@@ -2,9 +2,9 @@ const { where } = require("sequelize");
 const { City } = require("../models/index");
 
 class CityRepository {
-  async createCity({ data }) {
+  async createCity({ name }) {
     try {
-      const city = await City.create(data);
+      const city = await City.create({ name });
       return city;
     } catch (error) {
       console.log("somthing went wrong in repostory layer");
