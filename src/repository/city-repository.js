@@ -2,13 +2,26 @@ const { where } = require("sequelize");
 const { City } = require("../models/index");
 
 class CityRepository {
-  async createCity({ name }) {
+  async createCity(data) {
     try {
+      const name = data?.name?.trim().toLowerCase(); // ✅ clean name
+      if (!name) {
+        throw { name: "InvalidInput", message: "City name is required" };
+      }
+
+      const existingCity = await City.findOne({ where: { name } });
+      if (existingCity) {
+        throw {
+          name: "CityAlreadyExistsError",
+          message: "City already exists",
+        };
+      }
+
       const city = await City.create({ name });
       return city;
     } catch (error) {
-      console.log("somthing went wrong in repostory layer");
-      throw { error };
+      console.log("❌ Something went wrong in repository layer");
+      throw error;
     }
   }
 
@@ -43,6 +56,15 @@ class CityRepository {
     try {
       const city = await City.findByPk(cityId);
       return city;
+    } catch (error) {
+      console.log("somthing went wrong in repostory layer ");
+      throw { error };
+    }
+  }
+  async getAllCities() {
+    try {
+      const cities = await City.findAll();
+      return cities;
     } catch (error) {
       console.log("somthing went wrong in repostory layer ");
       throw { error };
